@@ -1,6 +1,6 @@
 !(function(e, t) {
     var config = {
-        wxconfig: 'http://api.tt4it.com/wx/jsapi_signature',
+        wxconfig: 'http://api.tt4it.com/wx/jsapi_signature'
     }, wxData = {
         debug: false,
         imgUrl: '',
@@ -49,7 +49,7 @@
     ], wxApiFun
 
     function isOpenOnPC() {  // 判断当前网页是否在 PC 浏览器中打开
-        ua = navigator.userAgent
+        var ua = navigator.userAgent
         return /windows nt/i.test(ua) || /macintosh/i.test(ua) || /linux x86_64/i.test(ua)
     }
 
@@ -113,7 +113,7 @@
                 if (JSWE.wxFail) {JSWE.wxFail()}
             }
         }, shareInfo = function(flag) {
-            _share = {
+            var _share = {
                 title: flag ? wxData.title : (wxData.timeLine || wxData.desc),
                 link: wxData.link,
                 imgUrl: wxData.imgUrl,
@@ -161,12 +161,12 @@
     }
 
     function initWxData(data, flag) {
-        for(d in data) {if (d in wxData) wxData[d] = data[d]}
+        for(var d in data) {if (d in wxData) wxData[d] = data[d]}
         if (flag) fixedWxData()
     }
 
     function changeWxData(key, value, flag) {
-        if (key in falDwxDataata) wxData[key] = value
+        if (key in falDwxDataata) {wxData[key] = value}
         if (flag) fixedWxData()
     }
 
@@ -174,7 +174,7 @@
         if ('undefined' !== typeof wxApiFun) wxApiFun()
     }
 
-    v = {
+    var v = {
         version: '1.0.0',
 
         // Basic Vars
