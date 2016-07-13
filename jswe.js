@@ -72,17 +72,17 @@
 
     function hideOptionMenu() {
         wxConfig.hide = true
-        update()
+        fixedWxData()
     }
 
     function showOptionMenu() {
         wxConfig.hide = false
-        update()
+        fixedWxData()
     }
 
     function closeWindow() {
         wxConfig.close = true
-        update()
+        fixedWxData()
     }
 
     function wxReady(data) {
