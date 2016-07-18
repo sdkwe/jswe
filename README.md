@@ -7,12 +7,13 @@ var config = {
     wxconfig: 'http://api.tt4it.com/wx/jsapi_signature',
 }
 ```
-* API 返回值类似
+* API Return As Below
 
     ```
     callback({"timestamp": 1468808924, "nonceStr": "3vsN53iaUwAotVpjU7FXsc", "signature": "f37cdfa34a720409d9d101c62f249f91654ce564", "appId": "wx6a5812c2621110cf"});
     ```
-* API Django 实现
+* API Django Realize
+
     ```python
     import shortuuid  # shortuuid==0.4.2
 
