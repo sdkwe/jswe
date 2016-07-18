@@ -7,6 +7,39 @@ var config = {
     wxconfig: 'http://api.tt4it.com/wx/jsapi_signature',
 }
 ```
+* API 返回值类似
+
+    ```
+    callback({"timestamp": 1468808924, "nonceStr": "3vsN53iaUwAotVpjU7FXsc", "signature": "f37cdfa34a720409d9d101c62f249f91654ce564", "appId": "wx6a5812c2621110cf"});
+    ```
+* API Django 实现
+    ```python
+    import shortuuid  # shortuuid==0.4.2
+
+    from django.conf import settings
+    from json_response import auto_response  # django-json-response==1.1.3
+    from wechatpy import WeChatClient  # wechatpy==1.2.8
+    
+    WECHAT = settings.WECHAT
+    JSAPI = WECHAT.get('JSAPI', {})
+
+    @auto_response
+    def wx_jsapi_signature_api(request):
+        url = request.GET.get('url', '')
+    
+        nonceStr, timestamp = shortuuid.uuid(), int(time.time())
+    
+        client = WeChatClient(JSAPI['appID'], JSAPI['appsecret'])
+        ticket = client.jsapi.get_jsapi_ticket()
+        signature = client.jsapi.get_jsapi_signature(nonceStr, ticket, timestamp, url)
+    
+        return {
+            'appId': JSAPI['appID'],
+            'nonceStr': nonceStr,
+            'timestamp': timestamp,
+            'signature': signature,
+        }
+    ```
 
 ## Usage
 ```javascript
