@@ -7,6 +7,10 @@ var config = {
     wxconfig: 'http://api.tt4it.com/wx/jsapi_signature',
 }
 ```
+or 
+```
+V.config.wxconfig = 'http://your-weixin-config-api'
+```
 * API Return As Below
 
     ```
@@ -48,6 +52,8 @@ var config = {
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript" src="./static/js/jswe.js"></script>
 <script>
+    // Change to your-weixin-config-api if necessary
+    // V.config.wxconfig = 'http://your-weixin-config-api'
     V.initWxData({
         imgUrl: "Img to Share",
         link: "Link to Share",
