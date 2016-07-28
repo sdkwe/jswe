@@ -148,7 +148,7 @@
     }
 
     if (isOpenInWeixin() || isOpenOnPC()) {
-        JSWE_CONF_UPDATE(config)
+        if ('undefined' !== typeof JSWE_CONF_UPDATE) JSWE_CONF_UPDATE(config)
         $.ajax({
             url: config.wxconfig,
             type: 'get',
