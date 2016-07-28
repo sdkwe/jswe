@@ -1,6 +1,7 @@
 !(function(e, t) {
     var config = {
-        wxconfig: 'http://api.tt4it.com/wx/jsapi_signature'
+        wxconfig: 'http://api.tt4it.com/wx/jsapi_signature',
+        callback: 'callback'
     }, wxData = {
         debug: false,
         imgUrl: '',
@@ -86,6 +87,7 @@
     }
 
     function wxReady(data) {
+        data = typeof data === 'object' ? data : JSON.parse(data)
         wx.config({
             debug: wxData.debug,
             appId: data.appId,
@@ -153,7 +155,7 @@
             url: config.wxconfig,
             type: 'get',
             dataType: 'jsonp',
-            jsonpCallback: 'callback',
+            jsonpCallback: config.callback,
             data: {
                 url: window.location.href.split('#')[0]
             },
