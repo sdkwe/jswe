@@ -148,6 +148,7 @@
     }
 
     if (isOpenInWeixin() || isOpenOnPC()) {
+        JSWE_CONF_UPDATE(config)
         $.ajax({
             url: config.wxconfig,
             type: 'get',

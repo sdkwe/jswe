@@ -7,9 +7,13 @@ var config = {
     wxconfig: 'http://api.tt4it.com/wx/jsapi_signature',
 }
 ```
-or 
+or Add Below Codes Before ``jswe.js``
 ```
-V.config.wxconfig = 'http://your-weixin-config-api'
+<script>
+    function JSWE_CONF_UPDATE(config) {
+        config.wxconfig = 'http://your-weixin-config-api';
+    }
+</script>
 ```
 * API Return As Below
 
