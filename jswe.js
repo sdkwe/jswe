@@ -43,6 +43,7 @@
         'closeWindow',
         'scanQRCode',
         'chooseWXPay',
+        'openEnterpriseRedPacket',
         'openProductSpecificView',
         'addCard',
         'chooseCard',
@@ -126,7 +127,7 @@
             }
             if (flag) _share.desc = wxData.desc
             return _share
-        }, wxApi = function() {
+        }, wxShareApi = function() {
             // 2. 分享接口
             // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
             wx.onMenuShareAppMessage(shareInfo(1))
@@ -136,12 +137,16 @@
             wx.onMenuShareQQ(shareInfo(1))
             // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
             wx.onMenuShareWeibo(shareInfo(1))
-            // 8 界面操作接口
+        }, wxMenuApi = function () {
+            // 8. 界面操作接口
             // 8.1 隐藏右上角菜单
             // 8.2 显示右上角菜单
             if (wxConfig.hide) {wx.hideOptionMenu()} else {wx.showOptionMenu()}
             // 8.7 关闭当前窗口
             if (wxConfig.close) {wx.closeWindow()}
+        }, wxApi = function () {
+            wxShareApi()
+            wxMenuApi()
         }
 
         wx.ready(wxApi)
@@ -177,6 +182,38 @@
         if ('undefined' !== typeof wxApiFun) wxApiFun()
     }
 
+    // 10 微信支付接口
+    // 10.1 发起一个支付请求
+    function　chooseWXPay(wxpay_params) {
+        wx.chooseWXPay({
+            timestamp: wxpay_params.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+            nonceStr: wxpay_params.nonceStr, // 支付签名随机串，不长于 32 位
+            package: wxpay_params.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+            signType: wxpay_params.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+            paySign: wxpay_params.paySign, // 支付签名
+            success: function (res) {
+                // 支付成功后的回调函数
+                if (JSWE.wxPaySuccess) {JSWE.wxPaySuccess()}
+            }
+        })
+    }
+
+    // xx 微信原生企业红包接口
+    // xx.1 发起一个发送原生企业红包请求
+    function　openEnterpriseRedPacket(wxredpack_params) {
+        wx.openEnterpriseRedPacket({
+            timeStamp: wxredpack_params.timeStamp, // 红包签名时间戳，注意原生企业红包接口timeStamp字段名需大写其中的S字符，而支付接口timeStamp字段名无需大写其中的S字符。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+            nonceStr: wxredpack_params.nonceStr, // 红包签名随机串，不长于 32 位
+            package: encodeURIComponent(wxredpack_params.package), // 发放红包接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+            signType: wxredpack_params.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+            paySign: wxredpack_params.paySign, // 红包签名
+            success: function (res) {
+                // 发送原生企业红包成功后的回调函数
+                if (JSWE.wxRedPacketSuccess) {JSWE.wxRedPacketSuccess()}
+            }
+        })
+    }
+
     var v = {
         version: '1.0.5',
 
@@ -198,7 +235,13 @@
         // Share Function
         initWxData: initWxData,
         changeWxData: changeWxData,
-        fixedWxData: fixedWxData
+        fixedWxData: fixedWxData,
+
+        // 支付
+        chooseWXPay: chooseWXPay,
+
+        // 原生企业红包
+        openEnterpriseRedPacket: openEnterpriseRedPacket
     }
     e.JSWE = e.V = v
 })(window)
