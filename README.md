@@ -82,6 +82,6 @@ or Add Below Codes Before ``jswe.js``
     success: wxReady
   })
   ```
-  
-  # Warning
+
+## Warning
   ``timestamp`` vs. ``timeStamp``
