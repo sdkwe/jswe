@@ -101,19 +101,19 @@
         var callbacks = {
             trigger: function (res) {
                 // alert('用户点击发送给朋友')
-                if (JSWE.wxTrigger) {JSWE.wxTrigger()}
+                if (JSWE.wxTrigger) {JSWE.wxTrigger(res)}
             },
             success: function (res) {
                 // alert('已分享')
-                if (JSWE.wxSuccess) {JSWE.wxSuccess()}
+                if (JSWE.wxSuccess) {JSWE.wxSuccess(res)}
             },
             cancel: function (res) {
                 // alert('已取消')
-                if (JSWE.wxCancel) {JSWE.wxCancel()}
+                if (JSWE.wxCancel) {JSWE.wxCancel(res)}
             },
             fail: function (res) {
                 // alert(JSON.stringify(res))
-                if (JSWE.wxFail) {JSWE.wxFail()}
+                if (JSWE.wxFail) {JSWE.wxFail(res)}
             }
         }, shareInfo = function(flag) {
             var _share = {
@@ -193,7 +193,7 @@
             paySign: wxpay_params.paySign, // 支付签名
             success: function (res) {
                 // 支付成功后的回调函数
-                if (JSWE.wxPaySuccess) {JSWE.wxPaySuccess()}
+                if (JSWE.wxPaySuccess) {JSWE.wxPaySuccess(res)}
             }
         })
     }
@@ -209,7 +209,7 @@
             paySign: wxredpack_params.paySign, // 红包签名
             success: function (res) {
                 // 发送原生企业红包成功后的回调函数
-                if (JSWE.wxRedPacketSuccess) {JSWE.wxRedPacketSuccess()}
+                if (JSWE.wxEnterpriseRedPacketSuccess) {JSWE.wxEnterpriseRedPacketSuccess(res)}
             }
         })
     }
@@ -237,10 +237,10 @@
         changeWxData: changeWxData,
         fixedWxData: fixedWxData,
 
-        // 支付
+        // Pay Function
         chooseWXPay: chooseWXPay,
 
-        // 原生企业红包
+        // EnterpriseRedPacket Function
         openEnterpriseRedPacket: openEnterpriseRedPacket
     }
     e.JSWE = e.V = v
