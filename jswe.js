@@ -181,6 +181,20 @@
         if ('undefined' !== typeof wxApiFun) wxApiFun()
     }
 
+    // 9 微信原生接口
+    // 9.1.1 扫描二维码并返回结果
+    // 9.1.2 扫描二维码并返回结果
+    function　scanQRCode(scan_params) {
+        if ('undefined' === typeof scan_params) scan_params = {}
+        wx.scanQRCode({
+            needResult: scan_params.needResult || 0,  // 默认为0，0扫描结果由微信处理，1直接返回扫描结果
+            scanType: scan_params.scanType || ['qrCode', 'barCode'],  // 可以指定扫二维码还是一维码，默认二者都有
+            success: function (res) {  // 当 needResult 为 1 时，扫码返回的结果
+                if (JSWE.wxScanQRCodeSuccess) {JSWE.wxScanQRCodeSuccess(res)}
+            }
+        });
+    }
+
     var v = {
         version: '1.0.5',
 
@@ -202,7 +216,10 @@
         // Share Function
         initWxData: initWxData,
         changeWxData: changeWxData,
-        fixedWxData: fixedWxData
+        fixedWxData: fixedWxData,
+
+        // Scan Function
+        scanQRCode: scanQRCode
     }
     e.JSWE = e.V = v
 })(window)
