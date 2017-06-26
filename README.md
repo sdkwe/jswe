@@ -83,5 +83,17 @@ or Add Below Codes Before ``jswe.js``
   })
   ```
 
+## Callback
+* wxScanQRCodeSuccess
+  ```javascript
+  V.wxScanQRCodeSuccess = function (res) {
+    // QRCode & BarCode is different
+    var resultStr = res.resultStr;
+    var results = resultStr.split(',');
+    var codeStr = results[results.length - 1];
+    // Deal with codeStr
+  }
+  ```
+
 ## Warning
   ``timestamp`` vs. ``timeStamp``
