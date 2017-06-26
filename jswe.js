@@ -126,7 +126,7 @@
             }
             if (flag) _share.desc = wxData.desc
             return _share
-        }, wxApi = function() {
+        }, wxShareApi = function() {
             // 2. 分享接口
             // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
             wx.onMenuShareAppMessage(shareInfo(1))
@@ -136,12 +136,16 @@
             wx.onMenuShareQQ(shareInfo(1))
             // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
             wx.onMenuShareWeibo(shareInfo(1))
-            // 8 界面操作接口
+        }, wxMenuApi = function () {
+            // 8. 界面操作接口
             // 8.1 隐藏右上角菜单
             // 8.2 显示右上角菜单
             if (wxConfig.hide) {wx.hideOptionMenu()} else {wx.showOptionMenu()}
             // 8.7 关闭当前窗口
             if (wxConfig.close) {wx.closeWindow()}
+        }, wxApi = function () {
+            wxShareApi()
+            wxMenuApi()
         }
 
         wx.ready(wxApi)
