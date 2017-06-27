@@ -195,6 +195,7 @@
         });
     }
 
+    // QRCode & BarCode is different
     function parseScanQRCodeResultStr(resultStr) {
         var strs = resultStr.split(',')
         return strs[strs.length - 1]
