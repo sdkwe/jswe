@@ -195,6 +195,11 @@
         });
     }
 
+    function parseScanQRCodeResultStr(resultStr) {
+        var strs = resultStr.split(',')
+        return strs[strs.length - 1]
+    }
+
     var v = {
         version: '1.0.5',
 
@@ -219,7 +224,8 @@
         fixedWxData: fixedWxData,
 
         // Scan Function
-        scanQRCode: scanQRCode
+        scanQRCode: scanQRCode,
+        parseScanQRCodeResultStr: parseScanQRCodeResultStr
     }
     e.JSWE = e.V = v
 })(window)
