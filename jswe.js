@@ -243,6 +243,11 @@
         });
     }
 
+    function parseScanQRCodeResultStr(resultStr) {
+        var strs = resultStr.split(',')
+        return strs[strs.length - 1]
+    }
+
     // 10 微信支付接口
     // 10.1 发起一个支付请求
     function　chooseWXPay(wxpay_params) {
@@ -306,6 +311,7 @@
 
         // Scan Function
         scanQRCode: scanQRCode,
+        parseScanQRCodeResultStr: parseScanQRCodeResultStr,
 
         // Pay Function
         chooseWXPay: chooseWXPay,
