@@ -23,32 +23,18 @@ or Add Below Codes Before ``jswe.js``
 * API Django Realize
 
     ```python
-    import shortuuid  # shortuuid==0.4.2
-
     from django.conf import settings
-    from json_response import auto_response  # django-json-response==1.1.3
-    from wechatpy import WeChatClient  # wechatpy==1.2.8
-    
-    WECHAT = settings.WECHAT
-    JSAPI = WECHAT.get('JSAPI', {})
+    from json_response import auto_response  # django-json-response==1.1.4
+    from pywe_jssdk import jsapi_signature_params  # pywe-jssdk==1.0.2
+
+    JSAPI = settings.WECHAT.get('JSAPI', {})
 
     @auto_response
-    def wx_jsapi_signature_api(request):
-        url = request.GET.get('url', '')
-    
-        nonceStr, timestamp = shortuuid.uuid(), int(time.time())
-    
-        client = WeChatClient(JSAPI['appID'], JSAPI['appsecret'])
-        ticket = client.jsapi.get_jsapi_ticket()
-        signature = client.jsapi.get_jsapi_signature(nonceStr, ticket, timestamp, url)
-    
-        return {
-            'appId': JSAPI['appID'],
-            'nonceStr': nonceStr,
-            'timestamp': timestamp,
-            'signature': signature,
-        }
+    def we_jsapi_signature_api(request):
+        return jsapi_signature_params(JSAPI['appID'], JSAPI['appsecret'], request.GET.get('url', ''))
     ```
+* API 3rd Support
+  * [Django WeChat OAuth2/Share API](https://github.com/django-xxx/django-we)
 
 ## Usage
 ```javascript
