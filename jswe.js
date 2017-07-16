@@ -187,45 +187,51 @@
         localIds: [],
         serverIds: []
     };
-    function chooseImage(count, directUpload, isShowProgressTips) {
-        if ('undefined' === typeof count) {count = 9}
-        if ('undefined' === typeof directUpload) {directUpload = false}
-        if ('undefined' === typeof isShowProgressTips) {isShowProgressTips = 1}
+    // function chooseImage(count, directUpload, isShowProgressTips) {
+    function chooseImage(choose_params) {
+        if ('undefined' === typeof choose_params) choose_params = {}
         wx.chooseImage({
-            count: count, // 默认9
-            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+            count: choose_params.count || 9, // 默认9
+            sizeType: choose_params.sizeType || ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: choose_params.sourceType || ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
             success: function (res) {
-                var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                images.localIds = localIds;
+                images.localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                 // 判断是否直接上传
-                if (directUpload) {setTimeout(uploadImages(localIds, isShowProgressTips), 100)}
+                if (choose_params.directUpload) {setTimeout(uploadImages({localIds: images.localIds, isShowProgressTips: choose_params.isShowProgressTips || 1}), 100)}
                 // 拍照、本地选图成功后的回调函数
                 if (JSWE.wxChooseImageSuccess) {JSWE.wxChooseImageSuccess(res)}
             }
         });
     }
 
+    // 5.2 图片预览
+    function previewImage(preview_params) {
+        wx.previewImage({
+            current: preview_params.current, // 当前显示图片的链接，不填则默认为 urls 的第一张
+            urls: preview_params.urls[0] // 需要预览的图片链接列表
+        });
+    }
+
     // 5.3 上传图片
-    function uploadImage(localId, isShowProgressTips) {
+    // function uploadImage(localId, isShowProgressTips) {
+    function uploadImage(upload_params) {
         // 上传图片为异步处理，重复上传同一图片，返回的serverId也是不同的
         wx.uploadImage({
-            localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
-            isShowProgressTips: 1, // 默认为1，显示进度提示
+            localId: upload_params.localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+            isShowProgressTips: upload_params.isShowProgressTips || 1, // 默认为1，显示进度提示
             success: function (res) {
-                var serverId = res.serverId; // 返回图片的服务器端ID
-                images.serverIds.push(serverId);
+                images.serverIds.push(res.serverId); // 返回图片的服务器端ID
                 // 上传图片成功后的回调函数
                 if (JSWE.wxUploadImageSuccess) {JSWE.wxUploadImageSuccess(res)}
             }
         });
     }
 
-    function uploadImages(localIds, isShowProgressTips) {
-        if ('undefined' === typeof localIds) {localIds = images.localIds}
-        if ('undefined' === typeof isShowProgressTips) {isShowProgressTips = 1}
+    // function uploadImages(localIds, isShowProgressTips) {
+    function uploadImages(upload_params) {
+        var localIds = upload_params.localIds, isShowProgressTips = upload_params.isShowProgressTips || 1
         images.serverIds = [];
-        for (var index in localIds) {uploadImage(localIds[index], isShowProgressTips)}
+        for (var idx in localIds) {uploadImage({localId: localIds[idx], isShowProgressTips: isShowProgressTips})}
     }
 
     var v = {
@@ -254,6 +260,7 @@
         // Image Function
         images: images,
         chooseImage: chooseImage,
+        previewImage: previewImage,
         uploadImage: uploadImage,
         uploadImages: uploadImages
     }
