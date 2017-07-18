@@ -208,7 +208,7 @@
     function previewImage(preview_params) {
         wx.previewImage({
             current: preview_params.current, // 当前显示图片的链接，不填则默认为 urls 的第一张
-            urls: preview_params.urls[0] // 需要预览的图片链接列表
+            urls: preview_params.urls // 需要预览的图片链接列表
         });
     }
 
