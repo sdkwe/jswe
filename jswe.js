@@ -11,13 +11,17 @@
         timeLine: ''
     }, wxConfig = {
         hide: false,
-        close: false
+        baseHide: false,
+        close: false,
+        hideMenuItems: [],
+        showMenuItems: []
     }, jsApiList = [
         'checkJsApi',
         'onMenuShareTimeline',
         'onMenuShareAppMessage',
         'onMenuShareQQ',
         'onMenuShareWeibo',
+        'onMenuShareQZone',
         'hideMenuItems',
         'showMenuItems',
         'hideAllNonBaseMenuItem',
@@ -82,6 +86,26 @@
         fixedWxData()
     }
 
+    function hideMenuItems(items) {
+        wxConfig.hideMenuItems = items
+        fixedWxData()
+    }
+
+    function showMenuItems(items) {
+        wxConfig.showMenuItems = items
+        fixedWxData()
+    }
+
+    function hideAllNonBaseMenuItem() {
+        wxConfig.baseHide = true
+        fixedWxData()
+    }
+
+    function showAllNonBaseMenuItem() {
+        wxConfig.baseHide = false
+        fixedWxData()
+    }
+
     function closeWindow() {
         wxConfig.close = true
         fixedWxData()
@@ -137,11 +161,40 @@
             wx.onMenuShareQQ(shareInfo(1))
             // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
             wx.onMenuShareWeibo(shareInfo(1))
+            // 2.5 监听“分享到QQ空间”按钮点击、自定义分享内容及分享结果接口
+            wx.onMenuShareQZone(shareInfo(1))
         }, wxMenuApi = function () {
             // 8. 界面操作接口
             // 8.1 隐藏右上角菜单
             // 8.2 显示右上角菜单
             if (wxConfig.hide) {wx.hideOptionMenu()} else {wx.showOptionMenu()}
+            // 8.3 批量隐藏菜单项
+            if (wxConfig.hideMenuItems) {
+                wx.hideMenuItems({
+                    menuList: wxConfig.hideMenuItems,
+                    success: function (res) {
+                        if (JSWE.wxHideMenuItemsSuccess) {JSWE.wxHideMenuItemsSuccess(res)}
+                    },
+                    fail: function (res) {
+                        if (JSWE.wxHideMenuItemsFail) {JSWE.wxHideMenuItemsFail(res)}
+                    }
+                });
+            }
+            // 8.4 批量显示菜单项
+            if (wxConfig.showMenuItems) {
+                wx.showMenuItems({
+                    menuList: wxConfig.showMenuItems,
+                    success: function (res) {
+                        if (JSWE.wxShowMenuItemsSuccess) {JSWE.wxShowMenuItemsSuccess(res)}
+                    },
+                    fail: function (res) {
+                        if (JSWE.wxShowMenuItemsFail) {JSWE.wxShowMenuItemsFail(res)}
+                    }
+                });
+            }
+            // 8.5 隐藏所有非基本菜单项
+            // 8.6 显示所有被隐藏的非基本菜单项
+            if (wxConfig.baseHide) {wx.hideAllNonBaseMenuItem()} else {wx.showAllNonBaseMenuItem()}
             // 8.7 关闭当前窗口
             if (wxConfig.close) {wx.closeWindow()}
         }, wxApi = function () {
@@ -230,6 +283,10 @@
         // Menu Function
         hideOptionMenu: hideOptionMenu,
         showOptionMenu: showOptionMenu,
+        hideMenuItems: hideMenuItems,
+        showMenuItems: showMenuItems,
+        hideAllNonBaseMenuItem: hideAllNonBaseMenuItem,
+        showAllNonBaseMenuItem: showAllNonBaseMenuItem,
         closeWindow: closeWindow,
 
         // Share Function
