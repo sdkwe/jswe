@@ -11,6 +11,7 @@
         timeLine: ''
     }, wxConfig = {
         hide: false,
+        baseFlag: false,
         baseHide: false,
         close: false,
         hideMenuItems: [],
@@ -52,6 +53,20 @@
         'chooseCard',
         'openCard'
     ], wxApiFun
+
+    function isEmpty(obj) {
+        if (obj == null) return true;
+        if (obj.length > 0) return false;
+        if (obj.length === 0) return true;
+        for (var key in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, key)) return false;
+        }
+        return true;
+    }
+
+    function isNotEmpty(obj) {
+        return !isEmpty(obj)
+    }
 
     function isOpenOnPC() {  // 判断当前网页是否在 PC 浏览器中打开
         var ua = navigator.userAgent
@@ -96,11 +111,13 @@
     }
 
     function hideAllNonBaseMenuItem() {
+        wxConfig.baseFlag = true
         wxConfig.baseHide = true
         fixedWxData()
     }
 
     function showAllNonBaseMenuItem() {
+        wxConfig.baseFlag = true
         wxConfig.baseHide = false
         fixedWxData()
     }
@@ -168,7 +185,7 @@
             // 8.2 显示右上角菜单
             if (wxConfig.hide) {wx.hideOptionMenu()} else {wx.showOptionMenu()}
             // 8.3 批量隐藏菜单项
-            if (wxConfig.hideMenuItems) {
+            if (isNotEmpty(wxConfig.hideMenuItems)) {
                 wx.hideMenuItems({
                     menuList: wxConfig.hideMenuItems,
                     success: function (res) {
@@ -180,7 +197,7 @@
                 });
             }
             // 8.4 批量显示菜单项
-            if (wxConfig.showMenuItems) {
+            if (isNotEmpty(wxConfig.showMenuItems)) {
                 wx.showMenuItems({
                     menuList: wxConfig.showMenuItems,
                     success: function (res) {
@@ -193,7 +210,9 @@
             }
             // 8.5 隐藏所有非基本菜单项
             // 8.6 显示所有被隐藏的非基本菜单项
-            if (wxConfig.baseHide) {wx.hideAllNonBaseMenuItem()} else {wx.showAllNonBaseMenuItem()}
+            if (wxConfig.baseFlag) {
+                if (wxConfig.baseHide) {wx.hideAllNonBaseMenuItem()} else {wx.showAllNonBaseMenuItem()}
+            }
             // 8.7 关闭当前窗口
             if (wxConfig.close) {wx.closeWindow()}
         }, wxApi = function () {
@@ -241,6 +260,9 @@
         config: config,
         wxData: wxData,
         jsApiList: jsApiList,
+
+        isEmpty: isEmpty,
+        isNotEmpty: isNotEmpty,
 
         // Weixin Function
         isOpenInWeixin: isOpenInWeixin,
