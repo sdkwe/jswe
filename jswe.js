@@ -392,7 +392,7 @@
                 // 判断是否直接上传
                 if (choose_params.directUpload) {setTimeout(uploadImages({localIds: images.localIds, isShowProgressTips: choose_params.isShowProgressTips || 1}), 100)}
                 // 拍照、本地选图成功后的回调函数
-                if (JSWE.wxChooseImageSuccess) {JSWE.wxChooseImageSuccess(res)}
+                if (JSWE.wxChooseImageSuccess) {JSWE.wxChooseImageSuccess(res, choose_params.extras || {})}
             }
         })
     }
