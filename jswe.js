@@ -264,7 +264,7 @@
             success: function (res) {  // 当 needResult 为 1 时，扫码返回的结果
                 if (JSWE.wxScanQRCodeSuccess) {JSWE.wxScanQRCodeSuccess(res)}
             }
-        });
+        })
     }
 
     // QRCode & BarCode is different
