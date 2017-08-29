@@ -38,8 +38,8 @@ or Add Below Codes Before ``jswe.js``
 
 ## Usage
 ```javascript
-<script type="text/javascript" src="http://cdn.bootcss.com/zepto/1.1.6/zepto.min.js"></script>
-<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/zepto/1.1.6/zepto.min.js"></script>
+<script type="text/javascript" src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript" src="./static/js/jswe.js"></script>
 <script>
     // Change to your-weixin-config-api if necessary
