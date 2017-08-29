@@ -510,7 +510,7 @@
         changeWxData: changeWxData,
         fixedWxData: fixedWxData,
 
-        // Voice
+        // Voice Function
         translateVoice: translateVoice,
         startRecord: startRecord,
         stopRecord: stopRecord,
