@@ -377,12 +377,11 @@
     }
 
     // 5 图片接口
-    // 5.1 拍照、本地选图
     var images = {
         localIds: [],
         serverIds: []
     }
-    // function chooseImage(count, directUpload, isShowProgressTips) {
+    // 5.1 拍照、本地选图
     function chooseImage(choose_params) {
         if ('undefined' === typeof choose_params) choose_params = {}
         wx.chooseImage({
@@ -408,7 +407,6 @@
     }
 
     // 5.3 上传图片
-    // function uploadImage(localId, isShowProgressTips) {
     function uploadImage(upload_params) {
         // 上传图片为异步处理，重复上传同一图片，返回的serverId也是不同的
         var localId = upload_params.localId
@@ -423,11 +421,20 @@
         })
     }
 
-    // function uploadImages(localIds, isShowProgressTips) {
     function uploadImages(upload_params) {
         var localIds = upload_params.localIds, isShowProgressTips = upload_params.isShowProgressTips || 1
         images.serverIds = []
         for (var idx in localIds) {uploadImage({localId: localIds[idx], isShowProgressTips: isShowProgressTips})}
+    }
+
+    function getLocalImgData(localId) {
+        wx.getLocalImgData({
+            localId: localId, // 图片的localID
+            success: function (res) {
+                // var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                if (JSWE.wxGetLocalImgDataSuccess) {JSWE.wxGetLocalImgDataSuccess(res)}
+            }
+        })
     }
 
     // 9 微信原生接口
@@ -529,6 +536,7 @@
         previewImage: previewImage,
         uploadImage: uploadImage,
         uploadImages: uploadImages,
+        getLocalImgData: getLocalImgData,
 
         // Scan Function
         scanQRCode: scanQRCode,
