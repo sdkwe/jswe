@@ -288,13 +288,14 @@
     // function uploadImage(localId, isShowProgressTips) {
     function uploadImage(upload_params) {
         // 上传图片为异步处理，重复上传同一图片，返回的serverId也是不同的
+        var localId = upload_params.localId
         wx.uploadImage({
-            localId: upload_params.localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+            localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
             isShowProgressTips: upload_params.isShowProgressTips || 1, // 默认为1，显示进度提示
             success: function (res) {
                 images.serverIds.push(res.serverId) // 返回图片的服务器端ID
                 // 上传图片成功后的回调函数
-                if (JSWE.wxUploadImageSuccess) {JSWE.wxUploadImageSuccess(res)}
+                if (JSWE.wxUploadImageSuccess) {JSWE.wxUploadImageSuccess(res, localId)}
             }
         })
     }
