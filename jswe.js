@@ -346,30 +346,32 @@
 
     // 4.8 上传语音
     function uploadVoice() {
-        if (voice.localId == '') {
+        var localId = voice.localId
+        if (localId == '') {
             if (JSWE.wxUploadVoiceEmpty) {JSWE.wxUploadVoiceEmpty()}
             return
         }
         wx.uploadVoice({
-            localId: voice.localId,
+            localId: localId,
             success: function (res) {
                 voice.serverId = res.serverId
-                if (JSWE.wxUploadVoiceSuccess) {JSWE.wxUploadVoiceSuccess(res)}
+                if (JSWE.wxUploadVoiceSuccess) {JSWE.wxUploadVoiceSuccess(res, localId)}
             }
         })
     }
 
     // 4.9 下载语音
     function downloadVoice() {
-        if (voice.localId == '') {
+        var serverId = voice.serverId
+        if (serverId == '') {
             if (JSWE.wxDownloadVoiceEmpty) {JSWE.wxDownloadVoiceEmpty()}
             return
         }
         wx.downloadVoice({
-            serverId: voice.serverId,
+            serverId: serverId,
             success: function (res) {
                 voice.localId = res.localId
-                if (JSWE.wxDownloadVoiceSuccess) {JSWE.wxDownloadVoiceSuccess(res)}
+                if (JSWE.wxDownloadVoiceSuccess) {JSWE.wxDownloadVoiceSuccess(res, serverId)}
             }
         })
     }
@@ -511,6 +513,7 @@
         fixedWxData: fixedWxData,
 
         // Voice Function
+        voice: voice,
         translateVoice: translateVoice,
         startRecord: startRecord,
         stopRecord: stopRecord,
