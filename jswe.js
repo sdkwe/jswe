@@ -40,6 +40,7 @@
         'previewImage',
         'uploadImage',
         'downloadImage',
+        'getLocalImgData',
         'getNetworkType',
         'openLocation',
         'getLocation',
@@ -304,6 +305,25 @@
         for (var idx in localIds) {uploadImage({localId: localIds[idx], isShowProgressTips: isShowProgressTips})}
     }
 
+    // 5.4 下载图片
+    function downloadImage(download_params) {
+        var serverId = download_params.serverId
+        wx.downloadImage({
+            serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
+            isShowProgressTips: download_params.isShowProgressTips || 1, // 默认为1，显示进度提示
+            success: function (res) {
+                images.localId.push(res.localId)
+                if (JSWE.wxDownloadImageSuccess) {JSWE.wxDownloadImageSuccess(res, serverId)}
+            }
+        })
+    }
+
+    function downloadImages(download_params) {
+        var serverIds = download_params.serverIds, isShowProgressTips = download_params.isShowProgressTips || 1
+        images.localIds = []
+        for (var idx in serverIds) {downloadImage({serverId: serverIds[idx], isShowProgressTips: isShowProgressTips})}
+    }
+
     function getLocalImgData(localId) {
         wx.getLocalImgData({
             localId: localId, // 图片的localID
@@ -350,6 +370,8 @@
         previewImage: previewImage,
         uploadImage: uploadImage,
         uploadImages: uploadImages,
+        downloadImage: downloadImage,
+        downloadImages: downloadImages,
         getLocalImgData: getLocalImgData
     }
     e.JSWE = e.V = v
