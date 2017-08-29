@@ -254,6 +254,126 @@
         if ('undefined' !== typeof wxApiFun) wxApiFun()
     }
 
+    // 3 智能接口
+    var voice = {
+        localId: '',
+        serverId: ''
+    }
+    // 3.1 识别音频并返回识别结果
+    function translateVoice() {
+        if (voice.localId == '') {
+            if (JSWE.wxTranslateVoiceEmpty) {JSWE.wxTranslateVoiceEmpty()}
+            return
+        }
+        wx.translateVoice({
+            localId: voice.localId,
+            complete: function (res) {
+                if (JSWE.wxTranslateVoiceComplete) {JSWE.wxTranslateVoiceComplete(res)}
+            }
+        })
+    }
+
+    // 4 音频接口
+    // 4.1 开始录音
+    function startRecord() {
+        wx.startRecord({
+            cancel: function () {
+                if (JSWE.wxStartRecordCancel) {JSWE.wxStartRecordCancel(res)}
+            }
+        })
+    }
+
+    // 4.2 停止录音
+    function stopRecord() {
+        wx.stopRecord({
+          success: function (res) {
+              voice.localId = res.localId
+              if (JSWE.wxStopRecordSuccess) {JSWE.wxStopRecordSuccess(res)}
+          },
+          fail: function (res) {
+              if (JSWE.wxStopRecordFail) {JSWE.wxStopRecordFail(res)}
+          }
+        })
+    }
+
+    // 4.3 监听录音自动停止
+    wx.onVoiceRecordEnd({
+        complete: function (res) {
+            voice.localId = res.localId
+            if (JSWE.wxVoiceRecordEnd) {JSWE.wxVoiceRecordEnd(res)}
+        }
+    })
+
+    // 4.4 播放音频
+    function playVoice() {
+        if (voice.localId == '') {
+            if (JSWE.wxPlayVoiceEmpty) {JSWE.wxPlayVoiceEmpty()}
+            return
+        }
+        wx.playVoice({
+            localId: voice.localId
+        })
+    }
+
+    // 4.5 暂停播放音频
+    function pauseVoice() {
+        if (voice.localId == '') {
+            if (JSWE.wxPauseVoiceEmpty) {JSWE.wxPauseVoiceEmpty()}
+            return
+        }
+        wx.pauseVoice({
+            localId: voice.localId
+        })
+    }
+
+    // 4.6 停止播放音频
+    function stopVoice() {
+        if (voice.localId == '') {
+            if (JSWE.wxStopVoiceEmpty) {JSWE.wxStopVoiceEmpty()}
+            return
+        }
+        wx.stopVoice({
+            localId: voice.localId
+        })
+    }
+
+    // 4.7 监听录音播放停止
+    wx.onVoicePlayEnd({
+        complete: function (res) {
+            if (JSWE.wxVoicePlayEnd) {JSWE.wxVoicePlayEnd(res)}
+        }
+    })
+
+    // 4.8 上传语音
+    function uploadVoice() {
+        if (voice.localId == '') {
+            if (JSWE.wxUploadVoiceEmpty) {JSWE.wxUploadVoiceEmpty()}
+            return
+        }
+        wx.uploadVoice({
+            localId: voice.localId,
+            success: function (res) {
+                voice.serverId = res.serverId
+                if (JSWE.wxUploadVoiceSuccess) {JSWE.wxUploadVoiceSuccess(res)}
+            }
+        })
+    }
+
+    // 4.9 下载语音
+    function downloadVoice() {
+        if (voice.localId == '') {
+            if (JSWE.wxDownloadVoiceEmpty) {JSWE.wxDownloadVoiceEmpty()}
+            return
+        }
+        wx.downloadVoice({
+            serverId: voice.serverId,
+            success: function (res) {
+                voice.localId = res.localId
+                if (JSWE.wxDownloadVoiceSuccess) {JSWE.wxDownloadVoiceSuccess(res)}
+            }
+        })
+    }
+
     // 5 图片接口
     // 5.1 拍照、本地选图
     var images = {
@@ -388,6 +508,16 @@
         initWxData: initWxData,
         changeWxData: changeWxData,
         fixedWxData: fixedWxData,
+
+        // Voice
+        translateVoice: translateVoice,
+        startRecord: startRecord,
+        stopRecord: stopRecord,
+        playVoice: playVoice,
+        pauseVoice: pauseVoice,
+        stopVoice: stopVoice,
+        uploadVoice: uploadVoice,
+        downloadVoice: downloadVoice,
 
         // Image Function
         images: images,
