@@ -56,13 +56,13 @@
     ], wxApiFun
 
     function isEmpty(obj) {
-        if (obj == null) return true;
-        if (obj.length > 0) return false;
-        if (obj.length === 0) return true;
+        if (obj == null) return true
+        if (obj.length > 0) return false
+        if (obj.length === 0) return true
         for (var key in obj) {
-            if (Object.prototype.hasOwnProperty.call(obj, key)) return false;
+            if (Object.prototype.hasOwnProperty.call(obj, key)) return false
         }
-        return true;
+        return true
     }
 
     function isNotEmpty(obj) {
@@ -195,7 +195,7 @@
                     fail: function (res) {
                         if (JSWE.wxHideMenuItemsFail) {JSWE.wxHideMenuItemsFail(res)}
                     }
-                });
+                })
             }
             // 8.4 批量显示菜单项
             if (isNotEmpty(wxConfig.showMenuItems)) {
@@ -207,7 +207,7 @@
                     fail: function (res) {
                         if (JSWE.wxShowMenuItemsFail) {JSWE.wxShowMenuItemsFail(res)}
                     }
-                });
+                })
             }
             // 8.5 隐藏所有非基本菜单项
             // 8.6 显示所有被隐藏的非基本菜单项
