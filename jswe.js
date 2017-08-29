@@ -379,7 +379,7 @@
     var images = {
         localIds: [],
         serverIds: []
-    };
+    }
     // function chooseImage(count, directUpload, isShowProgressTips) {
     function chooseImage(choose_params) {
         if ('undefined' === typeof choose_params) choose_params = {}
@@ -388,13 +388,13 @@
             sizeType: choose_params.sizeType || ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
             sourceType: choose_params.sourceType || ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
             success: function (res) {
-                images.localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                images.localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                 // 判断是否直接上传
                 if (choose_params.directUpload) {setTimeout(uploadImages({localIds: images.localIds, isShowProgressTips: choose_params.isShowProgressTips || 1}), 100)}
                 // 拍照、本地选图成功后的回调函数
                 if (JSWE.wxChooseImageSuccess) {JSWE.wxChooseImageSuccess(res)}
             }
-        });
+        })
     }
 
     // 5.2 图片预览
@@ -402,7 +402,7 @@
         wx.previewImage({
             current: preview_params.current, // 当前显示图片的链接，不填则默认为 urls 的第一张
             urls: preview_params.urls // 需要预览的图片链接列表
-        });
+        })
     }
 
     // 5.3 上传图片
@@ -413,17 +413,17 @@
             localId: upload_params.localId, // 需要上传的图片的本地ID，由chooseImage接口获得
             isShowProgressTips: upload_params.isShowProgressTips || 1, // 默认为1，显示进度提示
             success: function (res) {
-                images.serverIds.push(res.serverId); // 返回图片的服务器端ID
+                images.serverIds.push(res.serverId) // 返回图片的服务器端ID
                 // 上传图片成功后的回调函数
                 if (JSWE.wxUploadImageSuccess) {JSWE.wxUploadImageSuccess(res)}
             }
-        });
+        })
     }
 
     // function uploadImages(localIds, isShowProgressTips) {
     function uploadImages(upload_params) {
         var localIds = upload_params.localIds, isShowProgressTips = upload_params.isShowProgressTips || 1
-        images.serverIds = [];
+        images.serverIds = []
         for (var idx in localIds) {uploadImage({localId: localIds[idx], isShowProgressTips: isShowProgressTips})}
     }
 
