@@ -217,9 +217,24 @@
             }
             // 8.7 关闭当前窗口
             if (wxConfig.close) {wx.closeWindow()}
+        }, wxVoiceApi = function() {
+            // 4.3 监听录音自动停止
+            wx.onVoiceRecordEnd({
+                complete: function (res) {
+                    voice.localId = res.localId
+                    if (JSWE.wxVoiceRecordEnd) {JSWE.wxVoiceRecordEnd(res)}
+                }
+            })
+            // 4.7 监听录音播放停止
+            wx.onVoicePlayEnd({
+                complete: function (res) {
+                    if (JSWE.wxVoicePlayEnd) {JSWE.wxVoicePlayEnd(res)}
+                }
+            })
         }, wxApi = function () {
             wxShareApi()
             wxMenuApi()
+            wxVoiceApi()
         }
 
         wx.ready(wxApi)
@@ -297,14 +312,6 @@
         })
     }
 
-    // 4.3 监听录音自动停止
-    wx.onVoiceRecordEnd({
-        complete: function (res) {
-            voice.localId = res.localId
-            if (JSWE.wxVoiceRecordEnd) {JSWE.wxVoiceRecordEnd(res)}
-        }
-    })
-
     // 4.4 播放音频
     function playVoice() {
         if (voice.localId == '') {
@@ -337,13 +344,6 @@
             localId: voice.localId
         })
     }
-
-    // 4.7 监听录音播放停止
-    wx.onVoicePlayEnd({
-        complete: function (res) {
-            if (JSWE.wxVoicePlayEnd) {JSWE.wxVoicePlayEnd(res)}
-        }
-    })
 
     // 4.8 上传语音
     function uploadVoice() {
