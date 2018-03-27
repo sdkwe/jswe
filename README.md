@@ -79,6 +79,16 @@ or Add Below Codes Before ``jswe.js``
     ...
   }
   ```
+* wxPaySuccess
+  ```javascript
+  V.wxPaySuccess = function (res) {
+    if (res.errMsg == 'chooseWXPay:ok') {
+      // OK
+    } else {  // res.errMsg == 'chooseWXPay:fail'
+      // Fail
+    }
+  }
+  ```
 
 ## Warning
   ``timestamp`` vs. ``timeStamp``
