@@ -489,6 +489,10 @@
             success: function (res) {
                 // 支付成功后的回调函数
                 if (JSWE.wxPaySuccess) {JSWE.wxPaySuccess(res)}
+            },
+            cancel: function (res) {
+                // 支付取消后的回调函数
+                if (JSWE.wxPayCancel) {JSWE.wxPayCancel(res)}
             }
         })
     }
