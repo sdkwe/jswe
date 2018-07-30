@@ -256,7 +256,7 @@
     // 9 微信原生接口
     // 9.1.1 扫描二维码并返回结果
     // 9.1.2 扫描二维码并返回结果
-    function　scanQRCode(scan_params) {
+    function scanQRCode(scan_params) {
         if ('undefined' === typeof scan_params) scan_params = {}
         wx.scanQRCode({
             needResult: scan_params.needResult || 0,  // 默认为0，0扫描结果由微信处理，1直接返回扫描结果
