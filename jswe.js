@@ -460,7 +460,7 @@
     // 9 微信原生接口
     // 9.1.1 扫描二维码并返回结果
     // 9.1.2 扫描二维码并返回结果
-    function　scanQRCode(scan_params) {
+    function scanQRCode(scan_params) {
         if ('undefined' === typeof scan_params) scan_params = {}
         wx.scanQRCode({
             needResult: scan_params.needResult || 0,  // 默认为0，0扫描结果由微信处理，1直接返回扫描结果
@@ -479,7 +479,7 @@
 
     // 10 微信支付接口
     // 10.1 发起一个支付请求
-    function　chooseWXPay(wxpay_params) {
+    function chooseWXPay(wxpay_params) {
         wx.chooseWXPay({
             timestamp: wxpay_params.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
             nonceStr: wxpay_params.nonceStr, // 支付签名随机串，不长于 32 位
@@ -499,7 +499,7 @@
 
     // xx 微信原生企业红包接口
     // xx.1 发起一个发送原生企业红包请求
-    function　openEnterpriseRedPacket(wxredpack_params) {
+    function openEnterpriseRedPacket(wxredpack_params) {
         wx.openEnterpriseRedPacket({
             timeStamp: wxredpack_params.timeStamp, // 红包签名时间戳，注意原生企业红包接口timeStamp字段名需大写其中的S字符，而支付接口timeStamp字段名无需大写其中的S字符。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
             nonceStr: wxredpack_params.nonceStr, // 红包签名随机串，不长于 32 位
